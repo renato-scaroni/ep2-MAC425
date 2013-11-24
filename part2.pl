@@ -1,28 +1,19 @@
-% 46 eh .
-% 32 eh espaco
+final(.).
+final(?).
 
-ultimo_elem(X, [E1|T]) :- X = E1, T = [].
-ultimo_elem(X, [E1|T]) :- ultimo_elem(X, T).
+separa_final(Frase, NovaFrase, Final):-
+	atom_concat(F, Final, Frase),
+	atom_concat(F, ' ', F2),
+	atom_concat(F2, Final, NovaFrase),
+	final(Final),
+	!. 
 
-append([], List, List).
-append([Head|Tail], List, [Head|Rest]) :- append(Tail, List, Rest).
+separa_final(Frase, NovaFrase, ''):-
+	Frase = NovaFrase.
 
-read_line(L) :- get0(C), char_code_list(C,L).
-
-char_code_list(10,[]) :- !.
-char_code_list(C,[C|X]) :- get0(C2), char_code_list(C2,X).
-
-
-is_word(X) :- ultimo_elem(Y, X), Y = 32.
-is_word(X) :- ultimo_elem(Y, X), Y = 46.
-
-get_word(S, X) :- is_word(X), is_subset(S, X).
-
-is_subset([E1|T1], [E2|T2]) :- E1 = E2, is_subset(T1, T2).
-is_subset([E1|T1], [E2|T2]) :- E1 \= E2, is_subset(T1, [E2|T2]).
-is_subset(T1, T2) :- T2 = [].
-
-monta_lista(X) :-
-  read_line(X),
-  %atom_codes(Y, X),
-  write(X).
+monta_lista(L):-
+	read_line_to_codes(user_input, X),
+	string_to_atom(X, AX),
+	downcase_atom(AX, DAX),
+	separa_final(DAX, NDAX, T),
+    atomic_list_concat(L, ' ', NDAX).
