@@ -23,14 +23,12 @@ programa(X) :-
 	monta_lista(L),
 	ultimo_elem(Y, L),
 	Y = '.',
-	write('adding stuff'),
 	sentenca(Z, L, []).
 
 programa(X) :- 
 	monta_lista(X),
 	ultimo_elem(Y, X),
 	Y = '?',
-	write(Y),
-	query(Z, L, []),
+	query(Z, L, [])
 	print_res(Z),
 	nl.
