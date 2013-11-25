@@ -5,7 +5,9 @@ formata_saida(X, Y, NovaSaida):-
 	eh(X, Y),
 	atom_concat(X, ' eh aas ', A),
 	atom_concat(A, Y, B),
-	atom_concat(B, '.', NovaSaida);
+	atom_concat(B, '.', NovaSaida).
+
+formata_saida(X, Y, NovaSaida):-
 	da(X, Y),
 	atom_concat('O(a) professor(a) ', X, A),
 	atom_concat(A, ' da ', B),
@@ -28,7 +30,6 @@ get_obj(X, [E|T]) :- X = E.
 is_verb(eh).
 is_verb(da).
 
-print_res(A) :- write(A).
 
 programa(X) :- 
 	monta_lista(L),
@@ -41,5 +42,4 @@ programa(X) :-
 	ultimo_elem(Y, L),
 	Y = '?',
 	query(Z, L, []),
-	print_res(Z),
 	nl.
