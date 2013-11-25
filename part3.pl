@@ -1,10 +1,21 @@
 :- [part1].
 :- [part2].
 
-query(A, S0, S) :- S0=[quando|T], get_obj(X, T), X \= que, eh(X, Y), A = Y.
-query(A, S0, S) :- S0=[quem|T], get_obj(X, T), X \= que, da(Y, X), A = Y.
+formata_saida(X, Y, NovaSaida):-
+	eh(X, Y),
+	atom_concat(X, ' eh aas ', A),
+	atom_concat(A, Y, B),
+	atom_concat(B, '.', NovaSaida);
+	da(X, Y),
+	atom_concat('O(a) professor(a) ', X, A),
+	atom_concat(A, ' da ', B),
+	atom_concat(B, Y, C),
+	atom_concat(C, '.', NovaSaida).
+
+query(A, S0, S) :- S0=[quando|T], get_obj(X, T), X \= que, eh(X, Y), formata_saida(X, Y, A).
+query(A, S0, S) :- S0=[quem|T], get_obj(X, T), X \= que, da(Y, X), formata_saida(Y, X, A).
 query(A, S0, S) :- S0=[quem|T], get_obj(X, T), X = que, da(Z, Y), A=[Z, Y].
-query(A, S0, S) :- S0=[o|T], T = [que|T1], get_suj(X, T1), da(X, Y), A = Y.
+query(A, S0, S) :- S0=[o|T], T = [que|T1], get_suj(X, T1), da(X, Y), formata_saida(X, Y, A).
 
 get_suj(X, [E|T]) :- E = professora, T = [E1|T1], E1 = X.
 get_suj(X, [E|T]) :- E = professor, T = [E1|T1], E1 = X.
