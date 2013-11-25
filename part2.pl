@@ -1,5 +1,5 @@
-final(.).
-final(?).
+final('.').
+final('?').
 
 separa_final(Frase, NovaFrase, Final):-
 	atom_concat(F, Final, Frase),

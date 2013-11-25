@@ -1,5 +1,6 @@
 :- dynamic da/2.
 :- dynamic eh/2.
+:- dynamic genero/2.
 
 ultimo_elem(X, [E1|T]) :- X = E1, T = [].
 ultimo_elem(X, [E1|T]) :- ultimo_elem(X, T).
@@ -36,8 +37,8 @@ subs(A, S0, S) :- S0=[H|S], \+ a(H, []), \+ v(H, H, []), dias(H, D), A = D.
 subs(A, S0, S) :- S0=[H|S1], \+ a(H, []), \+ v(H, H, []), \+dias(H, D), S1=[e|T], subs(X, T, S), A=[H,X].
 subs(A, S0, S) :- S0=[H|S1], \+ a(H, []), \+ v(H, H, []), dias(H, D), S1=[e|T], subs(X, T, S), A=[D,X].
 
-prof(S0, S) :- S0=[professor|S].
-prof(S0, S) :- S0=[professora|S].
+prof(S0, S) :- S0=[professor|S], S = [P|T], assert(genero(P, masc)).
+prof(S0, S) :- S0=[professora|S], S = [P|T], assert(genero(P, fem)).
 prof(S0, S) :- S0=[prof|S].
 
 a(S0, S) :- S0=[o|S].

@@ -26,9 +26,9 @@ programa(X) :-
 	sentenca(Z, L, []).
 
 programa(X) :- 
-	monta_lista(X),
-	ultimo_elem(Y, X),
+	monta_lista(L),
+	ultimo_elem(Y, L),
 	Y = '?',
-	query(Z, L, [])
+	query(Z, L, []),
 	print_res(Z),
 	nl.
