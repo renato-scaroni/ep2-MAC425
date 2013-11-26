@@ -1,18 +1,43 @@
 :- [part1].
 :- [part2].
 
+dias_extenso([], []).
+
+dias_extenso([N0|NT], [D0|DT]):-
+	dias(D0, N0),
+	dias_extenso(NT, DT).
+
 formata_saida(X, Y, NovaSaida):-
 	eh(X, Y),
 	atom_concat(X, ' eh aas ', A),
-	atom_concat(A, Y, B),
-	atom_concat(B, '.', NovaSaida).
+	dias_extenso(Y, D),
+	ultimo_elem(U, D),
+	select(U, D, L),
+	atomic_list_concat(L, ', ', TD),
+	atom_concat(TD, ' e ', TDE),
+	atom_concat(TDE, U, FIM),
+	atom_concat(A, FIM, B),
+	atom_concat(B, '.', NovaSaida),
+	write(NovaSaida).
 
 formata_saida(X, Y, NovaSaida):-
 	da(X, Y),
-	atom_concat('O(a) professor(a) ', X, A),
+	genero(X, masc),
+	atom_concat('O professor ', X, A),
 	atom_concat(A, ' da ', B),
 	atom_concat(B, Y, C),
-	atom_concat(C, '.', NovaSaida).
+	atom_concat(C, '.', NovaSaida),
+	write(NovaSaida).
+
+formata_saida(X, Y, NovaSaida):-
+	da(X, Y),
+	genero(X, fem),
+	atom_concat('A professora ', X, A),
+	atom_concat(A, ' da ', B),
+	atom_concat(B, Y, C),
+	atom_concat(C, '.', NovaSaida),
+	write(NovaSaida).
+
 
 query(A, S0, S) :- S0=[quando|T], get_obj(X, T), X \= que, eh(X, Y), formata_saida(X, Y, A).
 query(A, S0, S) :- S0=[quem|T], get_obj(X, T), X \= que, da(Y, X), formata_saida(Y, X, A).
