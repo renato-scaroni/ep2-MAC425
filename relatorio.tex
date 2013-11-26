@@ -1,0 +1,120 @@
+%% Modelo criado por R\'egis (c) 2011
+%% http://latexbr.blogspot.com
+%% twitter: @rg3915
+%% Todos os caracteres foram convertidos para codigos TeX
+%% para que possa ser lido em qualquer plataforma.
+\documentclass[a4paper]{report} %padrao letterpaper, 10pt
+
+\usepackage[brazil]{babel}
+%\ usepackage[utf8]{inputenc}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{url}
+\usepackage{tabularx}
+\usepackage{array} % for defining a new column type
+\usepackage{varwidth} %for the varwidth minipage environment
+\usepackage{amsfonts,amssymb,graphicx,enumerate}
+\usepackage[centertags]{amsmath}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{indentfirst}
+\usepackage{alltt}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amstext}
+\usepackage{amsfonts}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{tipa}
+% Configuracoes de pagina
+\usepackage[lmargin=3cm,rmargin=3cm,tmargin=3cm,bmargin=3cm]{geometry}
+% Layout da pagina
+\usepackage{hyperref}
+\usepackage{qtree}
+\hypersetup{pdfpagelayout=SinglePage, % ou TwoPageLeft
+    colorlinks=true,
+    pdftitle={Relat\'orio ep2 de MAC0425},
+    pdfauthor={Eduardo Dias Filho \& Renato Scaroni}}
+
+
+
+% Ambiente para demonstracao que coloca quadrado no final, usando \rule
+% Nota: \rule{largura}{altura} produz um retagulo preto.
+\newenvironment{dem}[1][Demonstra\c c\~ao]{\textbf{#1:}\
+
+}  {\hfill\rule{1ex}{1ex}}
+%*******************************************************
+% Definindo novos comandos
+\providecommand{\sin}{} \renewcommand{\sin}{\hspace{2pt}\textrm{sen}}
+\newcommand{\R}{\mathbb{R}} %simbolos de numeros reais
+%*******************************************************
+\title{Relat\'orio ep2 de MAC0425}
+\author{Eduardo Dias Filho - NUSP: 7278100  \\  \& \\ Renato Scaroni - NUSP: 7289120}
+\date{Novembro de 2013}    %para ocultar a data digite: \date{ }
+%**********1*********************************************
+\begin{document}    %Inicio do documento
+\maketitle  %cria o titulo na capa
+%-------------------------------------------------------
+\chapter{Implementação}
+\label{chap_primeiro} %rotulo que pode ser usado em referencia cruzada
+
+\section{Geral}
+\label{sec_primeiro}
+\indent Neste relatório descreveremos detalhes de implementação do segundo exercício
+programa da disciplina MAC425, Inteligência artificial, ministrada no segundo semestre de 2013
+para o curso de ciência da computação em conjunto com graduação e pós. Para esse programa foi
+utilizado SWI-PROLOG, como exigido no enunciado do exercício. Também seguindo orientações, a implementação
+foi dividida em 3 partes.
+
+\section{Parte 1}
+\label{sec_segundo}
+Esta parte consistia em extrair de uma frase o verbo, o núcleo do sujeito e o predicado e salvar isso em predicados lógicos.
+Para isso fizemos uso de uma gramática livre de contexto em prolog, que quebra uma frase em sujeito e predicado. Um sujeito, por
+sua vez, pode ser um artigo e um substantivo, ou um artigo e dois substantivos (respectivamente se falamos do fulano ou do professor fulano).
+Um predicado é um verbo seguido de um objeto, que por sua vez é um substantivo (pelomenos nos casos considerados). Os Simbolos iniciais
+da linguagem são S1p, S2 ou composta. S1p representa uma frase com a estrutura descrita acima com o verbo "da" e terminada com ponto final.
+S2 é uma frase na mesma estrutura de S1p, mas com o verbo "eh" e temrinada em ponto final também. Composta é uma frase igual a S1p, porém 
+sem o ponto final (definida pelo simbolo S1) seguida de uma frase S2. Esses simbolos iniciais representam uma sentenca verificada pelo predicado
+sentenca$/$3\\
+\indent Para implementar os predicados que compõe a gramática descrita acima, foram implementadas os seguintes predicados auxiliares:
+\begin{itemize}
+ \item \textbf{ultimo\_elem$/$2} - Verifica se o primeiro parametro é o ultimo elemento da lista passada no segundo.
+ \item \textbf{ultimo\_antes$/$3} - Verifica se o primeiro parametro é o ultimo elemento da lista, passada no terceiro parametro, antes da ocorrencia
+ do elemento passado no segundo parametro.
+ \item \textbf{dias$/$2} - Verifica se o dia passado no primeiro parametro é o n-esimo da semana, onde n é passado no segundo parametro.
+ \item \textbf{cp$/$2} - Copia a lista no primeiro parametro para o segundo.
+ \item \textbf{eq$/$2} - Verifica se os dois elementos passados por parametro são iguais
+ \item \textbf{corta\_antes$/$3} - Retorna no primeiro parametro tudo o que ocorre, em ordem, em uma lista, passada no segundo parâmetro, depois do
+ elemento X, passado no terceiro.
+\end{itemize}
+Além desses predicados, foram usados 3 predicados dynamic, eh/2, da/2 (guardam verbo, nucleo do sujeito e nucleo do predicado) e genero/2, que, quando
+o sujeito for um professor(a), guarda se é homem ou mulher. Para definir instâncias desse predicado utlizamos o predicado assert/1.
+
+\section{Parte 2}
+\label{sec_terceiro}
+Essa parte consiste em ler a entrada do usuário através do predicado monta\_lista$(X)$ e transformar uma frase numa lista de palavras cujo último elemento é um ponto.
+Para isso utilizamos os seguintes predicados da linguagem: read\_line\_to\_codes/2, string\_to\_atom/2, downcase\_atom/2 e atomic\_list\_concat/2. Além destes
+implementamos mais um predicado que utiliza o predicaro atom\_concat/3, para achar o fim da entrada e um predicado final/1 que indica o fim da entrada.
+
+\section{Parte 3}
+\label{sec_terceiro}
+Na ultima parte utilizamos as outras duas para realizar leitura da entrada e para acrescentar os predicados no caso de uma afirmação. Tivemos portanto que implementar
+o predicado programa/1, que executa o programa e definir a parte da busca e de formatação da saída. Para identificar uma busca usamos a gramática query, que, baseado no
+advérbio utilizado no início da frase (quem , quando e o que) decide que tipo de pergunta está sendo feita e qual predicado verificar ("da" ou "eh", definidos na parte 1).
+A estrtura da pergunta é qubrada de forma a identificar o verbo sobre o que está se perguntando (isto é se queremos saber quem dá qual matéria ou quando é uma matéria)
+através de ua gramática. Para gerar a saída de uma busca para usuário utilizamos o predicado formata\_saída/3 que se encarrega de montar a estrutura da frase de acordo com
+o resultado da busca ao banco de dados e depois utilizamos o predicado write/1 para escrever na saída do prolog. Para decidir o genero de um professor na hora de montar a 
+saída foi utilizado o predicado genero/2 definido na parte 1.
+
+\chapter{Testes}
+\label{chap_segundo} %rotulo que pode ser usado em referencia cruzada
+
+\section{Geral}
+\label{sec_terceiro}
+Cada parte foi implementada e testada isoladamente, bem como cada predicado implementado. Utilizamos sempre entradas baseadas nas entradas dadas de exemplo
+no enunciado, ou seja, "professora renata da mac425.", no caso do ultimo predicado da parte 3, ou esta frase em forma de lista na parte 1. Para a montagem da
+lista utilizamos diversas frases, mesmo que suas estruturas não seguissem as das frases esperadas na entrada. Tudo funcionou muito bem. A única ressalva a ser feita é
+para o casoda busca, que exige que o enter seja pressionado antes da frase da pesquisa ser digitada, e que o programa só aceita afirmações com até dois dias para
+ocorrência de cada disciplina.
+\end{document}  %Fim do documento
