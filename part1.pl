@@ -20,8 +20,7 @@ sentenca(A, S0, S) :- s1p(A, S0, S).
 sentenca(A, S0, S) :- s2(A, S0, S).
 sentenca(A, S0, S) :- composta(A, S0, S).
 
-composta(A, S0, S) :- s1(A, S0, [aas|T]).
-composta(A, S0, S) :- ultimo_antes(X, aas, S0), corta_antes(L1, S0, X), s2(A, L1, S).
+composta(A, S0, S) :- s1(A1, S0, [aas|T]), ultimo_antes(X, aas, S0), corta_antes(L1, S0, X), s2(A2, L1, S), A = [A1, A2].
 
 s1(A, S0, S) :- suj(X, S0, S1), obj(V, Y, S1, S), V = da, assert(da(X, Y)), A = da(X, Y).
 s1p(A, S0, S) :- suj(X, S0, S1), obj(V, Y, S1, S2), S2=['.'], V = da, assert(da(X, Y)), A = da(X, Y).
@@ -49,7 +48,7 @@ obj(V, A, S0, S) :- v(Y, S0, S1), V = Y, pred(X, S1, S), A = X.
 pred(A, S0, S) :- suj(X, S0, S), A = X.
 
 v(V, S0, S) :- S0=[da|S], V = da.
-v(V, S0, S) :- S0=[eh|S], V = eh; S0=[eh, aas|S], V = eh;  S0=[aas|S], V = eh.
+v(V, S0, S) :- S0=[eh|S], V = eh; S0=[eh, aas|S], V = eh; S0=[aas|S], V = eh.
 
 dias(domingos, 1).
 dias(segundas, 2).

@@ -38,10 +38,9 @@ formata_saida(X, Y, NovaSaida):-
 	atom_concat(C, '.', NovaSaida),
 	write(NovaSaida).
 
-
 query(A, S0, S) :- S0=[quando|T], get_obj(X, T), X \= que, eh(X, Y), formata_saida(X, Y, A).
 query(A, S0, S) :- S0=[quem|T], get_obj(X, T), X \= que, da(Y, X), formata_saida(Y, X, A).
-query(A, S0, S) :- S0=[quem|T], get_obj(X, T), X = que, da(Z, Y), A=[Z, Y].
+query(A, S0, S) :- S0=[quem|T], get_obj(X, T), X = que, da(Z, Y), formata_saida(Z, Y, A).
 query(A, S0, S) :- S0=[o|T], T = [que|T1], get_suj(X, T1), da(X, Y), formata_saida(X, Y, A).
 
 get_suj(X, [E|T]) :- E = professora, T = [E1|T1], E1 = X.
