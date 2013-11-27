@@ -33,9 +33,9 @@ suj(A, S0, S) :- a(S0, S1), prof(S1, S2), subs(A, S2, S).
 suj(A, S0, S) :- subs(A, S0, S).
 
 subs(A, S0, S) :- S0=[H|S], \+ a(H, []), \+ v(H, H, []), \+dias(H, D), A = H.
-subs(A, S0, S) :- S0=[H|S], \+ a(H, []), \+ v(H, H, []), dias(H, D), A = D.
-subs(A, S0, S) :- S0=[H|S1], \+ a(H, []), \+ v(H, H, []), \+dias(H, D), S1=[e|T], subs(X, T, S), A=[H,X].
-subs(A, S0, S) :- S0=[H|S1], \+ a(H, []), \+ v(H, H, []), dias(H, D), S1=[e|T], subs(X, T, S), A=[D,X].
+subs(A, S0, S) :- S0=[H|S], \+ a(H, []), \+ v(H, H, []), dias(H, D), A = [D].
+subs(A, S0, S) :- S0=[H|S1], \+ a(H, []), \+ v(H, H, []), \+dias(H, D), S1=[e|T], subs(X, T, S), A=[H|X].
+subs(A, S0, S) :- S0=[H|S1], \+ a(H, []), \+ v(H, H, []), dias(H, D), S1=[e|T], subs(X, T, S), A=[D|X].
 
 prof(S0, S) :- S0=[professor|S], S = [P|T], assert(genero(P, masc)).
 prof(S0, S) :- S0=[professora|S], S = [P|T], assert(genero(P, fem)).
